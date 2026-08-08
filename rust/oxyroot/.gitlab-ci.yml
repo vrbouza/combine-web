@@ -1,0 +1,54 @@
+stages:
+  - test_full
+  - build
+  - test
+
+build_rust-latest:
+  stage: build
+  image: rust:latest
+  script:
+    - cargo build --verbose
+    - cargo b --bin oxyroot-ls
+    - cargo b --bin oxyroot-dump
+
+build rust-nightly:
+  stage: build
+  image: rustlang/rust:nightly
+  script:
+    - cargo build --verbose
+    - cargo b --bin oxyroot-ls
+  allow_failure: true
+
+test_rust-latest:
+  stage: test
+  image: rust:latest
+  script:
+    - cargo test --verbose --test 3_stl_containers --test 2_from_uproot --test 4_huge
+
+test_rust-nightly:
+  stage: test
+  image: rustlang/rust:nightly
+  script:
+    - cargo test --verbose --test 3_stl_containers --test 2_from_uproot --test 4_huge
+  allow_failure: true
+
+test_full:
+  stage: test_full
+  image: ${IMAGE}
+  parallel:
+    matrix:
+      - ROOT_VERSION:
+          - "https://root.cern/download/root_v6.32.06.Linux-ubuntu22.04-x86_64-gcc11.4.tar.gz"
+          - "https://root.cern/download/root_v6.30.04.Linux-ubuntu22.04-x86_64-gcc11.4.tar.gz"
+          - "https://root.cern/download/root_v6.28.12.Linux-ubuntu22-x86_64-gcc11.4.tar.gz"
+          - "https://root.cern/download/root_v6.26.14.Linux-ubuntu22-x86_64-gcc11.4.tar.gz"
+        IMAGE: [ "rust:latest", "rustlang/rust:nightly" ]
+  script:
+    - cat /etc/os-release
+    - gcc --version
+    - apt-get update && apt-get install -y libx11-dev libxpm-dev libxft-dev libxext-dev libtbb12
+    - wget --no-verbose $ROOT_VERSION -O /tmp/root.tar.gz
+    - tar -xzf /tmp/root.tar.gz -C /opt
+    - source /opt/root/bin/thisroot.sh
+    - root --version
+    - cargo test -- --nocapture

@@ -1,0 +1,63 @@
+[package]
+name = "oxyroot"
+version = { workspace = true }
+authors = { workspace = true }
+edition = { workspace = true }
+license = { workspace = true }
+repository = { workspace = true }
+
+exclude = ["*test_data/", "*.root", "*.C"]
+description = "Another attempt to make library reading and writing of `.root` binary files which are commonly used in particle physics"
+readme = "../readme.md"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+
+
+
+
+[dependencies]
+oxyroot_derive = { path = "../oxyroot_derive", optional = true, version = "0.1" }
+log = "0.4"
+num = "0.4"
+uuid = "1"
+chrono = "0.4"
+
+#flate2 = { version = "1.0.24", features = ["zlib-ng"], default-features = false }
+flate2 = { version = "1" }
+lazy_static = "1.4.0"
+trait-set = "0.3.0"
+downcast = "0.11.0"
+num-traits = "0.2"
+num-derive = "0.4"
+regex = "1"
+# Pure-Rust codecs. The upstream `xz2` and `lz4` crates are C-backed (lzma-sys,
+# lz4-sys) and cannot cross-compile to wasm32-unknown-unknown, which has no libc.
+lzma-rs = "0.3"
+lz4_flex = { version = "0.11", default-features = false, features = ["std"] }
+ruzstd = "0.7"
+itertools = "0.12"
+paste = "1.0"
+
+
+
+
+[dev-dependencies]
+test-log = "0.2"
+anyhow = { version = "1.0" }
+env_logger = { version = "0.11" }
+
+[features]
+zlib-ng = ["flate2/zlib-ng"]
+# Provide derive(Serialize, Deserialize) macros.
+derive = ["oxyroot_derive"]
+
+[package.metadata.docs.rs]
+features = ["derive"]
+rustdoc-args = ["--cfg", "doc_cfg"]
+
+
+
+[[example]]
+name = "open_file_for_debug"
+required-features = ["derive"]

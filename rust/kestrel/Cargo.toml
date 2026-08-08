@@ -1,0 +1,42 @@
+[package]
+name = "kestrel"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.88"              # minuit2's true minimum; it mis-declares 1.85
+license = "LGPL-2.1-or-later"      # inherited from the minuit2 dependency
+description = "CMS Combine-style maximum-likelihood fits in pure Rust and WebAssembly"
+
+[lib]
+# cdylib for wasm-pack; rlib so the CLI, tests, and benches can link the library.
+crate-type = ["cdylib", "rlib"]
+
+# The pure core. Nothing web-facing: this must stay a clean library that lifts
+# out of the web repo unchanged.
+[dependencies]
+minuit2 = "=0.5.2"                 # pinned: upstream is in maintenance mode
+oxyroot = { path = "../oxyroot/oxyroot" }
+serde = { version = "1", features = ["derive"] }
+thiserror = "2"
+
+# Gating is by target family, matching goshawk-web. wasm-pack selects this set
+# from the target alone, so no --features flag is needed anywhere.
+[target.'cfg(target_family = "wasm")'.dependencies]
+wasm-bindgen = "0.2"
+js-sys = "0.3"
+serde-wasm-bindgen = "0.6"
+console_error_panic_hook = "0.1"
+
+[target.'cfg(not(target_family = "wasm"))'.dependencies]
+clap = { version = "4", features = ["derive"] }
+serde_json = "1"
+
+[target.'cfg(not(target_family = "wasm"))'.dev-dependencies]
+serde_json = "1"
+
+[[bin]]
+name = "kestrel"
+path = "src/main.rs"
+
+[profile.release]
+lto = true
+codegen-units = 1

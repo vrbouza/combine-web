@@ -1,0 +1,22 @@
+[package]
+name = "oxyroot_derive"
+version = { workspace = true }
+authors = { workspace = true }
+edition = { workspace = true }
+license = { workspace = true }
+repository = { workspace = true }
+description = "Derive macro for oxyroot"
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[lib]
+proc-macro = true
+
+[dependencies]
+quote = "1"
+syn = { version = "2", features = ["extra-traits", "parsing"] }
+proc-macro2 = "1"
+darling = "0.20.8"
+
+[dev-dependencies]
+oxyroot = { path = "../oxyroot", features = ["derive"] }
+

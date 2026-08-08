@@ -1,0 +1,5 @@
+[toolchain]
+# minuit2 0.5.2 declares rust-version = "1.85", but actually needs 1.88: it uses
+# `let` chains and trait-upcasting coercion. Do not pin below that.
+channel = "stable"
+targets = ["wasm32-unknown-unknown"]
