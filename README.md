@@ -12,7 +12,7 @@ with the wasm sandbox, and `libCore` depends on it. What this project provides i
 the subset of Combine's model and fit that a simple single-POI binned analysis needs, validated against
 Combine's own published reference outputs.
 
-This is also possible thanks to the nice port of Minuit2 to Rust of [minuit-rs](https://github.com//minuit-rs), and the ROOT-in-Rust [oxyroot](https://github.com//oxyroot) crate's code, that has been extended here to include some histogram functionality.
+This is also possible thanks to the nice port of Minuit2 to Rust of [minuit-rs](https://github.com/ricardofrantz/minuit-rs), and the ROOT-in-Rust [oxyroot](https://github.com/m-dupont/oxyroot) crate's code, that has been extended here to include some histogram functionality.
 
 ## Quick start
 You'll need the Rust toolchain, and npm installed. With those,
