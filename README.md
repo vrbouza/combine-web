@@ -1,6 +1,6 @@
 # combine-wasm
 
-CMS Combine-style maximum-likelihood fits, run entirely in the browser via WebAssembly. Drop in a
+[CMS Combine](https://github.com/cms-analysis/HiggsAnalysis-CombinedLimit)-style maximum-likelihood fits, run entirely in the browser via WebAssembly. Drop in a
 datacard (and its shape `.root` file), pick a few parameters, and the fit runs client-side — no server,
 no upload, no ROOT installation.
 
