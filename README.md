@@ -1,4 +1,4 @@
-# combine-wasm
+# combine-web
 
 [CMS Combine](https://github.com/cms-analysis/HiggsAnalysis-CombinedLimit)-style maximum-likelihood fits, run entirely in the browser via WebAssembly. Drop in a
 datacard (and its shape `.root` file), pick a few parameters, and the fit runs client-side — no server,
@@ -19,7 +19,7 @@ You'll need the Rust toolchain, and npm installed. With those,
 
 
 ```sh
-git clone https://github.com/vrbouza/combine-wasm.git
+git clone https://github.com/vrbouza/combine-web.git
 cd www && npm install
 npm run serve     # http://localhost:8080
 ```
