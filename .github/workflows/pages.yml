@@ -1,0 +1,75 @@
+name: deploy to github pages
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+# Only one deployment at a time; a newer push queues behind a running one
+# rather than cancelling it halfway through (GitHub's recommendation for Pages).
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v6
+
+      # rust-toolchain.toml asks for stable + wasm32-unknown-unknown; this
+      # installs exactly that, so cargo inside the repo finds it ready.
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
+
+      # Installed explicitly so the plugin does not fall back to an unpinned
+      # `npm install -g wasm-pack`.
+      - uses: jetli/wasm-pack-action@v0.4.0
+
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: "rust/kestrel -> target"
+
+      # Optional gate: uncomment once you have confirmed the native tests pass
+      # on a clean runner (they need nothing beyond rust/kestrel/test/data).
+      # - name: native tests
+      #   working-directory: rust/kestrel
+      #   run: cargo test --release
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: www/package-lock.json
+
+      - uses: actions/configure-pages@v5
+
+      - name: build
+        working-directory: www
+        env:
+          # Read by vue.config.js: a project page lives under /combine-web/.
+          PUBLIC_PATH: /combine-web/
+        run: |
+          npm ci
+          npm run build
+          find dist/ -name '*.map' -delete
+
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: www/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
