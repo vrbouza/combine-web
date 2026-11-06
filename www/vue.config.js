@@ -3,7 +3,7 @@ const { defineConfig } = require("@vue/cli-service");
 const WasmPackPlugin = require("@wasm-tool/wasm-pack-plugin");
 
 module.exports = defineConfig({
-  publicPath: "/",
+  publicPath: process.env.NODE_ENV === "production" ? process.env.PUBLIC_PATH || "/" : "/",
 
   configureWebpack: {
     experiments: {
