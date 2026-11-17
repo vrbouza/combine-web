@@ -3,8 +3,7 @@
     <figcaption class="flex items-center justify-between gap-4">
       <span>
         Nuisance pulls and impacts. The impact is the shift in {{ poi }} when a nuisance is
-        fixed at its post-fit &plusmn;1&sigma; and everything else is re-profiled &mdash; a
-        measure of correlation, not a decomposition of the uncertainty.
+        fixed at its post-fit &plusmn;1&sigma; and everything else is re-profiled.
       </span>
       <span class="shrink-0 flex gap-1">
         <button
@@ -123,8 +122,7 @@
     <p v-if="hidden > 0 || flagged > 0" class="more">
       <template v-if="hidden > 0">{{ hidden }} more with smaller impacts, in the download.</template>
       <template v-if="flagged > 0">
-        † {{ flagged }} shown here needed an approximation — a crossing search or a re-fit did not
-        converge, so a shift of zero there means unknown, not negligible.
+        † {{ flagged }} shown here needed an approximation because a crossing search or a re-fit did not converge. A shift of zero there means unknown, not negligible.
       </template>
     </p>
   </figure>

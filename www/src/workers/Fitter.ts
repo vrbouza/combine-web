@@ -87,7 +87,7 @@ export class Fitter {
   /// Profile likelihood of one parameter, on demand when a row is clicked.
   scanParam(index: number, points: number): void {
     if (!this.held) {
-      this.post("generic", new Error("no model is loaded; run a fit first"));
+      this.post("generic", new Error("No model is loaded. Run a fit first"));
       return;
     }
     try {
@@ -119,7 +119,7 @@ export class Fitter {
   /// pool can tell which request a reply answers.
   impacts(anchor: Anchor, which: number[], asymmetric: boolean): void {
     if (!this.held) {
-      this.post("generic", new Error("impacts requested before the model was built"));
+      this.post("generic", new Error("Impacts requested before the model was built"));
       return;
     }
     try {

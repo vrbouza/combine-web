@@ -31,14 +31,11 @@
                 class="text-blue-600 hover:underline"
                 >Combine datacard</a
               >
-              and any <code>.root</code> files it names. The maximum-likelihood fit runs here, in
-              your browser, compiled to WebAssembly.
+              and any <code>.root</code> files it names.
             </p>
 
             <p>
-              This is a re-implementation of Combine's binned likelihood, not a port — ROOT cannot
-              be compiled to WebAssembly. It is validated against Combine 11.0.0 and agrees to
-              about 1e-6 on the fitted parameter of interest.
+              This is a re-implementation of Combine's binned likelihood, not a port. It has been validated against Combine 11.0.0 and agrees to about 1e-6 on the fitted parameter of interest.
             </p>
 
             <div>
@@ -80,32 +77,28 @@
               <div>
                 <dt class="font-medium text-gray-900">r min / r max</dt>
                 <dd class="ml-4">
-                  Range the signal strength is allowed to take, matching Combine's
-                  <code>--rMin</code>/<code>--rMax</code>. It defaults to [−5, 5]: letting it go
-                  negative avoids the one-sided impacts Combine's own documentation warns about.
+                  Range the signal strength is allowed to take(Combine's
+                  <code>--rMin</code>/<code>--rMax</code>). It defaults to [−5, 5].
                 </dd>
               </div>
               <div>
                 <dt class="font-medium text-gray-900">Mass</dt>
                 <dd class="ml-4">
-                  Substituted for <code>$MASS</code> in the card's <code>shapes</code> patterns, so
-                  mass-suffixed templates such as <code>ggH200</code> resolve.
+                  Substituted for <code>$MASS</code> in the card's <code>shapes</code> patterns.
                 </dd>
               </div>
               <div>
                 <dt class="font-medium text-gray-900">MINOS</dt>
                 <dd class="ml-4">
                   Asymmetric errors from the profile likelihood rather than the parabolic HESSE
-                  approximation. If the crossing search fails it falls back to the scan, as
-                  Combine's <code>--robustFit</code> does.
+                  approximation. If the crossing search fails it falls back to the scan (<code>--robustFit</code> behaviour).
                 </dd>
               </div>
               <div>
                 <dt class="font-medium text-gray-900">Scan points</dt>
                 <dd class="ml-4">
                   How many points in the profile-likelihood scan. Each is a full minimisation with
-                  the parameter of interest fixed, so this dominates the running time. Set it to 0
-                  to skip the scan.
+                  the parameter of interest fixed. Set to 0 to skip the scan.
                 </dd>
               </div>
               <div>
@@ -113,20 +106,13 @@
                 <dd class="ml-4">
                   Ranks the nuisances by their effect on the parameter of interest. Each one is
                   fixed at its post-fit &plusmn;1&sigma; while everything else, the POI included, is
-                  re-profiled; the resulting shift is its impact. That is two extra fits per
-                  nuisance, so it runs across a pool of web workers and is off by default. The
-                  impact measures how strongly a nuisance is correlated with the POI &mdash; it is
-                  <em>not</em> a decomposition of the uncertainty, and the shifts do not add in
-                  quadrature to the total.
+                  re-profiled; the resulting shift is its impact. The impact measures how strongly a nuisance is correlated with the POI.
                 </dd>
               </div>
               <div>
                 <dt class="font-medium text-gray-900">Asymmetric errors</dt>
                 <dd class="ml-4">
-                  Displaces each nuisance by its own MINOS crossings, which is what Combine does by
-                  default. Switching it off uses the symmetric HESSE error instead: faster, and the
-                  fallback Combine itself takes when a crossing search leaves no interval. The
-                  impacts stay asymmetric either way, because the two re-fits are independent.
+                  Displaces each nuisance by its own MINOS crossings. Switching it off uses the symmetric HESSE error instead (faster).
                 </dd>
               </div>
               <div>
@@ -134,16 +120,12 @@
                 <dd class="ml-4">
                   How many web workers share the impact fits. Each holds its own copy of the model
                   and its own WebAssembly instance, so more threads cost memory as well as cores.
-                  Returns fall off quickly: 72 nuisances took 5.3 s on one worker and 1.9 s on
-                  eight.
                 </dd>
               </div>
               <div>
                 <dt class="font-medium text-gray-900">Ignore shape systematics</dt>
                 <dd class="ml-4">
-                  Skips template morphing entirely and fits normalisation systematics only. Much
-                  faster, but the result is <em>less</em> constrained than Combine's, so the
-                  interval comes out narrower and is not comparable.
+                  Skips template morphing entirely and fits normalisation systematics only.
                 </dd>
               </div>
             </dl>
@@ -162,9 +144,7 @@
                   The black point is <code>(θ̂ − θ₁)/σ₁</code>: how far the nuisance ended up from
                   its pre-fit centre, in units of the <em>pre-fit</em> width. The blue
                   <code>×</code> is <code>(θ̂ − θ₁)/√(σ₁² − σ²)</code>, the same shift over the
-                  reduction in width — the statistically correct pull once the data constrains the
-                  nuisance, since the first form then over-covers. It is undefined, and hidden, when
-                  the data did not constrain it at all.
+                  reduction in width.
                 </dd>
               </div>
               <div>
@@ -172,7 +152,7 @@
                 <dd class="ml-4">
                   <code>σ/σ₁</code>, post-fit width over pre-fit width, drawn as the <em>length</em>
                   of the black bar rather than its position. Below 1 means the data pinned the
-                  nuisance down harder than its prior did; exactly 1 means the data said nothing
+                  nuisance down harder than its prior did. Exactly 1 means the data said nothing
                   about it. Click the row to see this directly: the profile is the bare prior,
                   crossing 68% at ±1, unless the data narrowed it.
                 </dd>
@@ -183,8 +163,7 @@
                   The coloured bars, <code>r̂(θ̂ ± σ) − r̂</code>: the shift in the POI when the
                   nuisance is fixed at its post-fit ±1σ and everything else is re-profiled. It
                   shares no arithmetic with the other two and costs two extra fits per nuisance. It
-                  is essentially a correlation — in the linear approximation
-                  <code>impact ≈ σ_r · ρ(r, θ)</code>. The two bars often point the same way,
+                  is essentially a correlation. In the linear approximation, <code>impact ≈ σ_r · ρ(r, θ)</code>. The two bars often point the same way,
                   because they come from independent re-fits.
                 </dd>
               </div>

@@ -1,8 +1,7 @@
 <template>
   <figure class="plot bg-white border border-gray-200 rounded-md p-4 mb-4">
     <figcaption>
-      Correlation matrix. Blue is positive, red negative; the strongest
-      off-diagonal pairs are listed below.
+      Correlation matrix. Blue is positive, red negative. Strongest off-diagonal pairs are listed below.
     </figcaption>
     <svg :viewBox="`0 0 ${side} ${side}`" role="img" aria-label="Correlation matrix">
       <rect

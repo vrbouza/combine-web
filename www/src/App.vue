@@ -4,15 +4,14 @@
       <FitPage />
 
       <footer class="mt-12 max-w-3xl border-t border-gray-200 pt-4 text-xs text-gray-500">
-        Everything runs in this tab — no datacard or histogram is uploaded. This is a
-        re-implementation of the subset of
+        Everything runs in this site: no datacard or histogram is uploaded. This is a re-implementation of the subset of
         <a
           href="https://cms-analysis.github.io/HiggsAnalysis-CombinedLimit/latest/"
           target="_blank"
           class="text-blue-600 hover:underline"
           >CMS Combine</a
         >
-        needed for a single-POI binned fit, validated against it — not a port of it.
+        needed for a single-POI binned fit, validated against it. It is NOT a full port of CMS Combine.
       </footer>
     </main>
   </div>

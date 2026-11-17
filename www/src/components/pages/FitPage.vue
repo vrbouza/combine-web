@@ -4,7 +4,7 @@
     <div class="w-full md:w-[350px] md:shrink-0">
       <h1 class="text-2xl font-medium mb-4 flex items-center gap-2">
         <ChartSpline class="w-6 h-6" />
-        Maximum likelihood fit
+        Combine CMS - Maximum likelihood fit
       </h1>
 
       <FitHelpCollapsible />
@@ -19,7 +19,7 @@
                 </TooltipTrigger>
                 <TooltipContent>
                   <p class="max-w-xs">
-                    Range the signal strength may take, as Combine's --rMin/--rMax.
+                    Range the signal strength may take (Combine's --rMin/--rMax).
                   </p>
                 </TooltipContent>
               </Tooltip>
@@ -42,8 +42,7 @@
                 </TooltipTrigger>
                 <TooltipContent>
                   <p class="max-w-xs">
-                    Substituted for $MASS in the card's shapes patterns, so templates such as
-                    ggH200 resolve.
+                    Substituted for $MASS in the card's shapes patterns.
                   </p>
                 </TooltipContent>
               </Tooltip>
@@ -101,8 +100,7 @@
               </TooltipTrigger>
               <TooltipContent>
                 <p class="max-w-xs">
-                  Fits normalisation systematics only. Much faster, but less constrained than
-                  Combine, so the interval is narrower and not comparable.
+                  Fits normalisation systematics only. Faster, but less constrained than Combine, so the interval is narrower and not comparable.
                 </p>
               </TooltipContent>
             </Tooltip>
@@ -134,9 +132,7 @@
               </TooltipTrigger>
               <TooltipContent>
                 <p class="max-w-xs">
-                  Displaces each nuisance by its own MINOS crossings, as Combine does by default.
-                  Turn off for the symmetric HESSE error, which is faster and is what Combine
-                  itself falls back to when a crossing search fails.
+                  Displaces each nuisance by its own MINOS crossings. Turn off for the symmetric HESSE error.
                 </p>
               </TooltipContent>
             </Tooltip>
@@ -186,8 +182,7 @@
 
       <div v-if="summary && summary.ignoredShapeSysts.length"
            class="mx-6 mb-4 p-3 bg-amber-50 border border-amber-400 rounded-md text-sm text-gray-700">
-        {{ summary.ignoredShapeSysts.length }} shape systematics ignored, so this interval is
-        narrower than Combine's and not comparable to it.
+        {{ summary.ignoredShapeSysts.length }} shape systematics ignored.
       </div>
 
       <div v-bind="getRootProps()"
